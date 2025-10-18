@@ -22,6 +22,14 @@
             max-width: 500px;
         }
         
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
@@ -71,12 +79,12 @@
 </head>
 <body>
     <div class="container">
+        <img src="icon.png" alt="פק״ל למדריך" class="app-icon">
         <h1>פק"ל למדריך</h1>
         <div class="spinner"></div>
         <p class="message">מעביר אותך לחנות האפליקציות המתאימה...</p>
         
         <div class="buttons" id="manualButtons">
-            <p>לא הועברת אוטומטית? בחר את מערכת ההפעלה שלך:</p>
             <a href="https://apps.apple.com/il/app/פק-ל-למדריך/id6753037629?l=he" class="button">iOS - App Store</a>
             <a href="https://play.google.com/store/apps/details?id=com.gilad.pklGuide" class="button">Android - Google Play</a>
         </div>
@@ -103,11 +111,13 @@
             }
             
             // במקרה של מחשב או מערכת לא מזוהה - הצג כפתורים
-            setTimeout(function() {
-                document.querySelector('.spinner').style.display = 'none';
-                document.querySelector('.message').textContent = 'לא זיהינו את מערכת ההפעלה שלך';
-                document.getElementById('manualButtons').style.display = 'block';
-            }, 1000);
+            showManualButtons();
+        }
+        
+        function showManualButtons() {
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.message').textContent = 'לא הועברת אוטומטית? בחר את החנות המתאימה:';
+            document.getElementById('manualButtons').style.display = 'block';
         }
         
         // הרץ את הזיהוי מיד כשהדף נטען
@@ -115,10 +125,9 @@
         
         // גיבוי - אם לא הועבר תוך 3 שניות, הצג כפתורים
         setTimeout(function() {
-            if (document.querySelector('.spinner').style.display !== 'none') {
-                document.querySelector('.spinner').style.display = 'none';
-                document.querySelector('.message').textContent = 'לא הועברת אוטומטית? בחר את החנות המתאימה:';
-                document.getElementById('manualButtons').style.display = 'block';
+            const spinner = document.querySelector('.spinner');
+            if (spinner.style.display !== 'none') {
+                showManualButtons();
             }
         }, 3000);
     </script>
