@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הורדת האפליקציה - פק"ל למדריך</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .message {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        
+        .buttons {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        
+        .button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>פק"ל למדריך</h1>
+        <div class="spinner"></div>
+        <p class="message">מעביר אותך לחנות האפליקציות המתאימה...</p>
+        
+        <div class="buttons" id="manualButtons">
+            <p>לא הועברת אוטומטית? בחר את מערכת ההפעלה שלך:</p>
+            <a href="https://apps.apple.com/il/app/פק-ל-למדריך/id6753037629?l=he" class="button">iOS - App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=com.gilad.pklGuide" class="button">Android - Google Play</a>
+        </div>
+    </div>
+
+    <script>
+        function detectAndRedirect() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // קישורי האפליקציות
+            const iosUrl = 'https://apps.apple.com/il/app/פק-ל-למדריך/id6753037629?l=he';
+            const androidUrl = 'https://play.google.com/store/apps/details?id=com.gilad.pklGuide';
+            
+            // זיהוי iOS (iPhone, iPad, iPod)
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = iosUrl;
+                return;
+            }
+            
+            // זיהוי Android
+            if (/android/i.test(userAgent)) {
+                window.location.href = androidUrl;
+                return;
+            }
+            
+            // במקרה של מחשב או מערכת לא מזוהה - הצג כפתורים
+            setTimeout(function() {
+                document.querySelector('.spinner').style.display = 'none';
+                document.querySelector('.message').textContent = 'לא זיהינו את מערכת ההפעלה שלך';
+                document.getElementById('manualButtons').style.display = 'block';
+            }, 1000);
+        }
+        
+        // הרץ את הזיהוי מיד כשהדף נטען
+        detectAndRedirect();
+        
+        // גיבוי - אם לא הועבר תוך 3 שניות, הצג כפתורים
+        setTimeout(function() {
+            if (document.querySelector('.spinner').style.display !== 'none') {
+                document.querySelector('.spinner').style.display = 'none';
+                document.querySelector('.message').textContent = 'לא הועברת אוטומטית? בחר את החנות המתאימה:';
+                document.getElementById('manualButtons').style.display = 'block';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
